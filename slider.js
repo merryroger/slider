@@ -1,4 +1,5 @@
 /*** The Slider by Ehwaz Raido (Merry Roger) 2022 ***/
+/*** 2022 Jun, 7  v.0.1.1 ***/
 
 class Slider {
 
@@ -172,8 +173,8 @@ class Slider {
       this.settings.mode = 'switch';
     }
 
-    let etf = this._transEndCBF.bind(this);
-    document.body.addEventListener('transitionend', etf);
+    this.etf = this._transEndCBF.bind(this);
+    document.body.addEventListener('transitionend', this.etf);
 
     if (this.settings.kbSupport !== null) {
       this._kbSupportSetUp();
@@ -181,18 +182,18 @@ class Slider {
 
     if (!this.settings.auto) {
       document.querySelectorAll(this.settings.wheelClass).forEach(
-        function (wheel) {
+        (wheel) => {
           wheel.style.display = 'block';
           if (this.whLabels !== null) {
             wheel.closest('label').style.display = 'initial';
           }
         }, this);
 
-      let wdf = this._wheelDownCBF.bind(this);
-      this.dock.addEventListener('pointerdown', wdf);
+      this.wdf = this._wheelDownCBF.bind(this);
+      this.dock.addEventListener('pointerdown', this.wdf);
 
-      let wuf = this._wheelUpCBF.bind(this);
-      this.dock.addEventListener('pointerup', wuf);
+      this.wuf = this._wheelUpCBF.bind(this);
+      this.dock.addEventListener('pointerup', this.wuf);
     }
 
     if (this.toh !== 0) {
@@ -418,9 +419,9 @@ class Slider {
     }
 
     if (this.cbLabels !== null) {
-      this.cbLabels.forEach(function (cbLabel) {
-        cbLabel.addEventListener('keypress', function (e) {
-          if (e.charCode == 32) {
+      this.cbLabels.forEach((cbLabel) => {
+        cbLabel.addEventListener('keypress', (e) => {
+          if (e.charCode == 13 || e.charCode == 32) {
             e.preventDefault();
             let input = e.target.querySelector('input');
             input.checked = true;
@@ -431,8 +432,8 @@ class Slider {
     }
 
     if (this.whLabels !== null) {
-      this.whLabels.forEach(function (whLabel) {
-        whLabel.addEventListener('keypress', function (e) {
+      this.whLabels.forEach((whLabel) => {
+        whLabel.addEventListener('keypress', (e) => {
           if (e.charCode == 32) {
             e.preventDefault();
             let button = e.target.querySelector('button');
@@ -440,7 +441,7 @@ class Slider {
           }
         });
 
-        whLabel.addEventListener('keyup', function (e) {
+        whLabel.addEventListener('keyup', (e) => {
           if (e.keyCode == 32) {
             e.preventDefault();
             let button = e.target.querySelector('button');
@@ -451,6 +452,37 @@ class Slider {
     }
 
     return true;
+  }
+
+  destruct() {
+    document.body.removeEventListener('transitionend', this.etf);
+    this.dock.removeEventListener('pointerdown', this.wdf);
+    this.dock.removeEventListener('pointerup', this.wuf);
+    this._finishTransition(this.currentIdx);
+    clearTimeout(this.toh);
+    this._resetTransformProps();
+    let propSet = {
+      top: '0',
+      left: '0',
+      zx: '0',
+      vs: 'hidden',
+      bgr: '',
+      opc: '1',
+      filter: 'none'
+    }
+
+    for (let [prop, defVal] of Object.entries(propSet)) {
+      this.dock.style.setProperty(`--after-${prop}`, defVal);
+      this.dock.style.setProperty(`--before-${prop}`, defVal);
+    }
+
+    document.querySelectorAll(this.settings.wheelClass).forEach(
+      (wheel) => {
+        wheel.style.display = 'none';
+        wheel.closest('label').style.display = 'none';
+      });
+
+    this.dock.className = this.settings.dockClassName(this.settings.defaultItem + 1);
   }
 
 }
