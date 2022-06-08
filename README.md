@@ -4,6 +4,9 @@ It supports several transition options and has a number of settings for changing
 
 # Versions
 
+## 0.1.2 (2022, June 8)
+Fixed a bug with interruption of auto-switching in the default mode after manual slide selection.
+
 ## 0.1.1 (2022, June 7)
 The destructor function was added. Some code fragments were rebuilt.
 

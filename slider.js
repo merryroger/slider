@@ -1,5 +1,5 @@
 /*** The Slider by Ehwaz Raido (Merry Roger) 2022 ***/
-/*** 2022 Jun, 7  v.0.1.1 ***/
+/*** 2022 Jun, 8  v.0.1.2 ***/
 
 class Slider {
 
@@ -217,6 +217,9 @@ class Slider {
 
     if (startPos != this.currentIdx) {
       this._execTransition(startPos, src, false);
+      if (this.settings.mode == 'switch') {
+        this._finishTransition(startPos);
+      }
     } else if (this.settings.auto) {
       startPos = (this.orientation.rightDown) ? (startPos + 1) : (startPos - 1);
       this._setTimeout(startPos);
