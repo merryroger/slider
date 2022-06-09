@@ -217,13 +217,17 @@ class Slider {
 
     if (startPos != this.currentIdx) {
       this._execTransition(startPos, src, false);
-      if (this.settings.mode == 'switch') {
-        this._finishTransition(startPos);
+      if (this.settings.mode == 'switch' && this.settings.auto) {
+        this._delayAutoSwap(startPos);
       }
     } else if (this.settings.auto) {
-      startPos = (this.orientation.rightDown) ? (startPos + 1) : (startPos - 1);
-      this._setTimeout(startPos);
+      this._delayAutoSwap(startPos);
     }
+  }
+
+  _delayAutoSwap(pos) {
+    pos = (this.orientation.rightDown) ? (pos + 1) : (pos - 1);
+      this._setTimeout(pos);
   }
 
   _transEndCBF(e) {
