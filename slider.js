@@ -1,5 +1,5 @@
 /*** The Slider by Ehwaz Raido (Merry Roger) 2022 ***/
-/*** 2022 Jun, 8  v.0.1.2 ***/
+/*** 2022 Jun, 9  v.0.1.3 ***/
 
 class Slider {
 
