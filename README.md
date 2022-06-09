@@ -2,6 +2,8 @@
 A simple Javascript slider made for a learning project.
 It supports several transition options and has a number of settings for changing its operating modes.
 
+You can look at the Slider [demo page](https://merryroger.github.io/slider/en/).
+
 # Versions
 
 ## 0.1.3 (2022, June 9)
